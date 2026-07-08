@@ -13,6 +13,19 @@ const config: NextConfig = {
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   experimental: { typedRoutes: true },
   transpilePackages: ['@syrine/ui', '@syrine/types'],
+  async headers() {
+    // Force the CV to download with its filename, and never let a stale copy
+    // be cached, so replacing the PDF in public/cv always shows up.
+    return [
+      {
+        source: '/cv/:file*',
+        headers: [
+          { key: 'Content-Disposition', value: 'attachment' },
+          { key: 'Cache-Control', value: 'no-store' },
+        ],
+      },
+    ]
+  },
   async rewrites() {
     return process.env.NODE_ENV === 'development'
       ? [
