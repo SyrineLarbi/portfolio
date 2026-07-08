@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
 
   const res = await fetch(`${API}/api/cv?persona=${persona}`, {
     headers: { 'user-agent': ua, 'x-vercel-ip-country': country },
+    cache: 'no-store',
   })
   if (!res.ok) return new NextResponse('Failed', { status: res.status })
 
@@ -17,6 +18,7 @@ export async function GET(req: NextRequest) {
     headers: {
       'Content-Type': 'application/pdf',
       'Content-Disposition': 'attachment; filename="Syrine_Larbi_EN.pdf"',
+      'Cache-Control': 'no-store',
     },
   })
 }
